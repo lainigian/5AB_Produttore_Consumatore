@@ -15,8 +15,8 @@ public class App
 
     public static void main(String[] args) 
     {
-        int[] buffer=new int[1];
-        Semaforo s1=new Semaforo(1);
+        int[] buffer=new int[10];
+        Semaforo s1=new Semaforo(buffer.length);
         Semaforo s2=new Semaforo(0);
         
         Produttore p=new Produttore(buffer, s1, s2);

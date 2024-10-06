@@ -24,28 +24,33 @@ public class Produttore implements Runnable
         this.s1=s1;
         this.s2=s2;
     }
-    
-    
+
      public void run()
      {
          int datoProdotto;
+         int nextIn=0;
          while(!Thread.interrupted())
          {
              try 
              {  
-                 s1.P();
-                 Thread.sleep(1000);
+                 //Opportuno mettere lo sleeep prima di s1.P()
+                 //altrimenti la visulizzazione dell'outpt risulta
+                 //confusa perchè input e output sulla console si 
+                 //sovrappongono
+                 Thread.sleep(produciSleepCasuale());
                  datoProdotto=produciNumeroCasule();
-                 buffer[0]=datoProdotto;
-                 System.out.println("Dato prodotto -> "+buffer[0]);
+                 s1.P();
+                 buffer[nextIn]=datoProdotto;
+                 //System.out.println("Dato prodotto -> "+buffer[0]);
+                 mostraBuffer();
+                 nextIn++;
+                 nextIn=nextIn%buffer.length;
                  s2.V();          
              } 
              catch (InterruptedException ex) 
              {
                  System.out.println("Produttore interrotto");
-             }
-           
-             
+             }   
          }
      }
      
@@ -54,10 +59,33 @@ public class Produttore implements Runnable
       * @return
       * @throws InterruptedException 
       */
-     private int produciNumeroCasule() throws InterruptedException
+     private int produciNumeroCasule() 
      {
          Random r=new Random();
         
          return r.nextInt(1,100);
+     }
+     
+        /**
+      * Produce un numero casuale fra 1000 e 2000
+      * usato per rendere il ritardo casule
+      * @return
+      * @throws InterruptedException 
+      */
+     private int produciSleepCasuale() 
+     {
+         Random r=new Random();
+        
+         return r.nextInt(1000,2000);
+     }
+     
+     private synchronized void mostraBuffer()
+     {
+         System.out.println("");
+         for(int i=0;i<buffer.length;i++)
+         {
+             System.out.print(buffer[i]+"\t");
+         }
+         System.out.println("\t --> scrittura");
      }
 }

@@ -27,25 +27,53 @@ public class Consumatore implements  Runnable
      public void run()
      {
          int datoLetto;
+         int nextOut=0;
          while(!Thread.interrupted())
          {
              try 
              {
-                 
+                  //Opportuno mettere lo sleeep prima di s2.P()
+                 //altrimenti la visulizzazione dell'outpt risulta
+                 //confusa perchè input e output sulla console si 
+                 //sovrappongono
+                 Thread.sleep(produciSleepCasuale());
                  s2.P();
-                 Thread.sleep(1000);
-                 datoLetto=buffer[0];
-                 System.out.println("Dato letto -> "+buffer[0]);
+                 datoLetto=buffer[nextOut];
+                 buffer[nextOut]=0; //pongo a 0 il dato appena letto
+                 //System.out.println("Dato letto -> "+buffer[0]);
+                 mostraBuffer();
+                 nextOut++;
+                 nextOut=nextOut%buffer.length;
                  s1.V();          
              } 
              catch (InterruptedException ex) 
              {
                  System.out.println("Produttore interrotto");
              }
-           
-             
          }
      }
      
+    private synchronized void mostraBuffer()
+     {
+         System.out.println("");
+         for(int i=0;i<buffer.length;i++)
+         {
+             System.out.print(buffer[i]+"\t");
+         }
+         System.out.println("\t --> lettura");
+     }
      
+     
+       /**
+      * Produce un numero casuale fra 2000 e 3000
+      * usato per rendere il ritardo casule
+      * @return
+      * @throws InterruptedException 
+      */
+     private int produciSleepCasuale() 
+     {
+         Random r=new Random();
+        
+         return r.nextInt(2000,3000);
+     }
 }
