@@ -48,7 +48,8 @@ public class Consumatore implements  Runnable
              } 
              catch (InterruptedException ex) 
              {
-                 System.out.println("Produttore interrotto");
+                 System.out.println("Consumatore interrotto");
+                  break; //interrompe il produttore se l'interrupt avviene durante un wait o uno sleep
              }
          }
      }

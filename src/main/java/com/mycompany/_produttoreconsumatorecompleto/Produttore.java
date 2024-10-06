@@ -50,6 +50,7 @@ public class Produttore implements Runnable
              catch (InterruptedException ex) 
              {
                  System.out.println("Produttore interrotto");
+                 break; //interrompe il produttore se l'interrupt avviene durante un wait o uno sleep
              }   
          }
      }

@@ -4,6 +4,8 @@
 
 package com.mycompany._produttoreconsumatorecompleto;
 
+import java.util.Scanner;
+
 /**
  *
  * @author gian
@@ -25,8 +27,15 @@ public class App
         Thread produttore=new Thread(p);
         Thread consumatore=new Thread(c);
         
+        System.out.println("Per interrompere premere invio...");
         produttore.start();
         consumatore.start();
+        
+        Scanner tastiera=new Scanner(System.in);
+        tastiera.nextLine();
+        
+        produttore.interrupt();
+        consumatore.interrupt();
         
     }
 }
